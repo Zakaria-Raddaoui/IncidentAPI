@@ -103,5 +103,25 @@ namespace IncidentAPI.Controllers
         {
             return _context.Incidents.Any(e => e.Id == id);
         }
+
+        // Filter incidents by status
+        [HttpGet("status/{status}")]
+        public IActionResult FilterByStatus(string status)
+        {
+            var l = from inc in _context.Incidents
+                    where inc.Status.Contains(status)
+                    select inc;
+            return Ok(l);
+        }
+
+        // Filter incidents by severity
+        [HttpGet("severity/{severity}")]
+        public IActionResult FilterBySeverity(string severity)
+        {
+            var l = from sev in _context.Incidents
+                    where sev.Severity.Contains(severity)
+                    select sev;
+            return Ok(l);
+        }
     }
 }
