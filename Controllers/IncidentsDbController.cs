@@ -16,6 +16,8 @@ namespace IncidentAPI.Controllers
     [ApiController]
     public class IncidentsDbController : ControllerBase
     {
+        private static readonly string[] AllowedSeverities = { "LOW", "MEDIUM", "HIGH", "CRITICAL" };
+        private static readonly string[] AllowedStatuses = { "OPEN", "IN_PROGRESS", "RESOLVED" };
         private readonly IncidentsDbContext _context;
 
         public IncidentsDbController(IncidentsDbContext context)
@@ -154,7 +156,21 @@ namespace IncidentAPI.Controllers
             var l = await _context.Incidents.Where(s => s.Status.Contains(status)).ToListAsync();
             return Ok(l);
         }
+        [HttpPatch("{id}/status")]
+        public async Task<IActionResult> PutIncidentStatus(int id, string status)
+        {
+            if (!AllowedStatuses.Contains(status.ToUpper()))
+            {
+                return BadRequest($"Status must be one of the following: {string.Join(", ",
+                AllowedStatuses)}");
+            }
+            var incident = await _context.Incidents.FindAsync(id);
+            if (incident == null)
+                return NotFound();
+            incident.Status = status;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
-        
     }
 }
