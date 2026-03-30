@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Humanizer;
+using IncidentAPI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using IncidentAPI.Models;
+using System.Timers;
 
 namespace IncidentAPI.Controllers
 {
@@ -19,6 +22,8 @@ namespace IncidentAPI.Controllers
         {
             _context = context;
         }
+
+        
 
         // GET: api/IncidentsDb
         [HttpGet]
@@ -40,6 +45,7 @@ namespace IncidentAPI.Controllers
 
             return incident;
         }
+
 
         // PUT: api/IncidentsDb/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -74,9 +80,12 @@ namespace IncidentAPI.Controllers
 
         // POST: api/IncidentsDb
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPost]
         public async Task<ActionResult<Incident>> PostIncident(Incident incident)
         {
+            // incident.Status = "IN_PROGRESS";
+            // incident.CreatedAt = DateTime.UtcNow;
             _context.Incidents.Add(incident);
             await _context.SaveChangesAsync();
 
@@ -139,5 +148,7 @@ namespace IncidentAPI.Controllers
             var l = await _context.Incidents.Where(s => s.Status.Contains(status)).ToListAsync();
             return Ok(l);
         }
+
+        
     }
 }
