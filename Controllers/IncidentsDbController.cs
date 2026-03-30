@@ -150,6 +150,8 @@ namespace IncidentAPI.Controllers
             var l = await _context.Incidents.Where(s => s.Status.Contains(status)).ToListAsync();
             return Ok(l);
         }
+
+        // Action ajoutée par mon collaborateur
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> PutIncidentStatus(int id, string status)
         {
