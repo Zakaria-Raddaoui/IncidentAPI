@@ -84,8 +84,8 @@ namespace IncidentAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Incident>> PostIncident(Incident incident)
         {
-            // incident.Status = "IN_PROGRESS";
-            // incident.CreatedAt = DateTime.UtcNow;
+            incident.Status = "IN_PROGRESS";
+            incident.CreatedAt = DateTime.UtcNow;
             _context.Incidents.Add(incident);
             await _context.SaveChangesAsync();
 
