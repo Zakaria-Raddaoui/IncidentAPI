@@ -84,6 +84,11 @@ namespace IncidentAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Incident>> PostIncident(Incident incident)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             incident.Status = "OPEN";
             incident.CreatedAt = DateTime.UtcNow;
             _context.Incidents.Add(incident);
