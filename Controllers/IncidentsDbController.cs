@@ -91,8 +91,9 @@ namespace IncidentAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            incident.Status = "OPEN";
+            incident.Status = "IN_PROGRESS";
             incident.CreatedAt = DateTime.UtcNow;
+
             _context.Incidents.Add(incident);
             await _context.SaveChangesAsync();
 
