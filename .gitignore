@@ -3,3 +3,8 @@ obj/
 *.user
 *.Development.json
 Migrations/
+.vs/
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.*
